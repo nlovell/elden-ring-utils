@@ -23,7 +23,7 @@ describe('Test goldenRunesNeeded', () => {
 
   it('Correctly calculates required runes with custom GoldenRunes array', () => {
     expect(
-      goldenRunesNeeded(800, 16300, [
+      goldenRunesNeeded(800, 16300, 0.75, [
         { runeLevel: 10, value: 5000 },
         { runeLevel: 1, value: 200 }
       ])
@@ -35,7 +35,7 @@ describe('Test goldenRunesNeeded', () => {
 
   it('Correctly calculates required runes with custom GoldenRunes array (unordered)', () => {
     expect(
-      goldenRunesNeeded(800, 16300, [
+      goldenRunesNeeded(800, 16300, 0.75, [
         { runeLevel: 1, value: 200 },
         { runeLevel: 10, value: 5000 }
       ])
