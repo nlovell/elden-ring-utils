@@ -1,5 +1,5 @@
 import { GoldenRune } from '../goldenRunes';
-import { goldenRunesNeeded } from '../index';
+import { goldenRunesNeeded, runeCostToNextLevel } from '../index';
 
 function totalRuneValue(runes: GoldenRune[]): number {
   return runes
@@ -44,4 +44,23 @@ describe('Test goldenRunesNeeded', () => {
       { runeLevel: 1, value: 200, count: 3 }
     ]);
   });
+});
+
+describe('Test runeCostToNextLevel', () => {
+  it.each`
+    currentLevel | expected
+    ${1}         | ${673}
+    ${5}         | ${740}
+    ${11}        | ${847}
+    ${51}        | ${15682}
+    ${62}        | ${22903}
+    ${112}       | ${78968}
+    ${240}       | ${482232}
+    ${695}       | ${8297986}
+  `(
+    'Correctly calculates required runes to level up from $currentLevel',
+    ({ currentLevel, expected }) => {
+      expect(runeCostToNextLevel(currentLevel)).toBe(expected);
+    }
+  );
 });

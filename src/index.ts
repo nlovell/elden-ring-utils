@@ -42,6 +42,30 @@ export function goldenRunesNeeded(
 }
 
 /**
+ * Calculates the number of runes required for a player to upgrade their character in a standard, unmodified Elden Ring game.
+ * These values may differ if you are using a modpack that changes balance or adjusts prices.
+ *
+ * @param currentLevel the current level of the player expressed as a whole positive integer, clamped within the valid range range of levels
+ * @returns the cost required to upgrade to the next level in runes
+ */
+export function runeCostToNextLevel(currentLevel: number): number {
+  const nextLevel = clamp(Math.floor(currentLevel), 0, 713) + 1;
+  if (nextLevel < 12) {
+    const lowLevels = [
+      0, 0, 673, 689, 706, 723, 740, 757, 775, 793, 811, 829, 847
+    ];
+    return lowLevels[nextLevel];
+  } else {
+    return Math.floor(
+      0.02 * nextLevel * nextLevel * nextLevel +
+        3.06 * nextLevel * nextLevel +
+        105.6 * nextLevel -
+        895
+    );
+  }
+}
+
+/**
  * Simple clamp function
  */
 function clamp(value: number, min: number, max: number): number {
