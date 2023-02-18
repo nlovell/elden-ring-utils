@@ -66,6 +66,37 @@ export function runeCostToNextLevel(currentLevel: number): number {
 }
 
 /**
+ * Calculates the cost in runes between two provided levels.
+ *
+ * @param currentLevel the current level of the player expressed as a whole positive integer, clamped within the valid range range of levels
+ * @param desiredLevel the desired level of the player expressed as a whole positive integer, clamped within the valid range range of levels
+ * @returns the cost required to upgrade to the desired level in runes
+ */
+export function runeCostToLevelFrom(
+  currentLevel: number,
+  desiredLevel: number
+): number {
+  var cost = 0;
+
+  const currLevel = clamp(
+    Math.floor(currentLevel <= desiredLevel ? currentLevel : desiredLevel),
+    0,
+    713
+  );
+  const desLevel = clamp(
+    Math.floor(currentLevel >= desiredLevel ? currentLevel : desiredLevel),
+    0,
+    713
+  );
+
+  for (var lvl = currLevel; lvl < desLevel; lvl++) {
+    cost = cost + runeCostToNextLevel(lvl);
+  }
+
+  return cost;
+}
+
+/**
  * Simple clamp function
  */
 function clamp(value: number, min: number, max: number): number {
