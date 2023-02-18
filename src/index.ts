@@ -5,12 +5,14 @@ import { GoldenRune, GOLDEN_RUNES } from './goldenRunes';
  *
  * @param runesHeld Number of runes currently held in the player's Status view. Do not count items in the inventory.
  * @param runesRequired Number of runes required for the purchase/level-up. Can be provided unordered.
- * @param runesAvailable Array of Golden Rune tiers available to the player. Defaults to all rune types in the game
+ * @param wastedPercentage (Optional) Percentage of runes you're willing to waste on your spend, represented as a number between 1 and 0. Defaults to 25% (0.25)
+ * @param runesAvailable (Optional) Array of Golden Rune tiers available to the player. Defaults to all rune types in the game
  * @returns Array of golden runes appended with the number required. Removes entries with zero counts.
  **/
 export function goldenRunesNeeded(
   runesHeld: number,
   runesRequired: number,
+  wastedPercentage: number = 0.75,
   runesAvailable: GoldenRune[] = GOLDEN_RUNES
 ): GoldenRune[] {
   let runesToGo = Math.round(runesRequired) - Math.round(runesHeld);
@@ -24,7 +26,7 @@ export function goldenRunesNeeded(
       if (
         runesToGo > 0 &&
         (goldenRune === sortedRunes.at(-1) ||
-          goldenRune.value * 0.75 <= runesToGo)
+          goldenRune.value * (1 - clamp(wastedPercentage, 0, 1)) <= runesToGo)
       ) {
         count = count + 1;
         runesToGo = runesToGo - goldenRune.value;
@@ -37,4 +39,11 @@ export function goldenRunesNeeded(
     }
     return [];
   });
+}
+
+/**
+ * Simple clamp function
+ */
+function clamp(value: number, min: number, max: number): number {
+  return Math.min(Math.max(value, min), max);
 }
