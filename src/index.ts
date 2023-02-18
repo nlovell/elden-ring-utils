@@ -8,7 +8,7 @@ import { GoldenRune, GOLDEN_RUNES } from './goldenRunes';
  * @param wastedPercentage (Optional) Percentage of runes you're willing to waste on your spend, represented as a number between 1 and 0. Defaults to 25% (0.25)
  * @param runesAvailable (Optional) Array of Golden Rune tiers available to the player. Defaults to all rune types in the game
  * @returns Array of golden runes appended with the number required. Removes entries with zero counts.
- **/
+ */
 export function goldenRunesNeeded(
   runesHeld: number,
   runesRequired: number,
@@ -16,11 +16,11 @@ export function goldenRunesNeeded(
   runesAvailable: GoldenRune[] = GOLDEN_RUNES
 ): GoldenRune[] {
   let runesToGo = Math.round(runesRequired) - Math.round(runesHeld);
-  var sortedRunes = runesAvailable.sort((a, b) => b.value - a.value);
+  const sortedRunes = runesAvailable.sort((a, b) => b.value - a.value);
   return sortedRunes.flatMap((goldenRune) => {
     if (runesToGo > 0) {
       const mod = runesToGo % goldenRune.value;
-      var count = (runesToGo - mod) / goldenRune.value;
+      let count = (runesToGo - mod) / goldenRune.value;
       runesToGo = mod;
 
       if (
